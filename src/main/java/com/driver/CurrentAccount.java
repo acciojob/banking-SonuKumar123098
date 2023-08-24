@@ -26,10 +26,10 @@ public class CurrentAccount extends BankAccount{
         char[]arr=tradeLicenseId.toCharArray();
         int[]freq=new int[26];
         if(isValid(arr)) return;
-        int n=arr.length;
+        int n=tradeLicenseId.length();
         int maxm=0, letter=0;
         for(int i=0;i<n;i++){
-            int x=arr[i]-'a';
+            int x=arr[i]-'A';
             freq[x]++;
             if(freq[x]>maxm){
                 maxm=freq[x];
@@ -40,13 +40,13 @@ public class CurrentAccount extends BankAccount{
         char []res=new char[n];
         int idx=0;
         while(idx<n && freq[letter]-->0){
-            res[idx]=(char)(letter+'a');
+            res[idx]=(char)(letter+'A');
             idx+=2;
         }
         for(int i=0;i<26;i++){
             while(freq[i]-->0){
                 if(idx>=n) idx=1;
-                res[idx]=(char)(i+'a');
+                res[idx]=(char)(i+'A');
                 idx+=2;
             }
 
