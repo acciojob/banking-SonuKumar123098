@@ -24,39 +24,34 @@ public class CurrentAccount extends BankAccount{
         // If the characters of the license Id can be rearranged to create any valid license Id
         // If it is not possible, throw "Valid License can not be generated" Exception
         char[]arr=tradeLicenseId.toCharArray();
+        int[]freq=new int[26];
         if(isValid(arr)) return;
-        PriorityQueue<Pair>pq=new PriorityQueue<>(new SortByFreq());
-        int freq[]=new int[26];
         int n=arr.length;
+        int maxm=0, letter=0;
         for(int i=0;i<n;i++){
-            freq[arr[i]-'A']++;
+            int x=arr[i]-'a';
+            freq[x]++;
+            if(freq[x]>maxm){
+                maxm=freq[x];
+                letter=x;
+            }
+        }
+        if(maxm>(n+1)/2) throw new Exception("Valid License can not be generated");
+        char []res=new char[n];
+        int idx=0;
+        while(idx<n && freq[letter]-->0){
+            res[idx]=(char)(letter+'a');
+            idx+=2;
         }
         for(int i=0;i<26;i++){
-            if(freq[i]!=0){
-                pq.add(new Pair((char)(i+'A'),freq[i]));
+            while(freq[i]-->0){
+                if(idx>=n) idx=1;
+                res[idx]=(char)(i+'a');
+                idx+=2;
             }
+
         }
-        StringBuilder sb=new StringBuilder();
-        while(pq.size()>0){
-            Pair p1=pq.remove();
-            sb.append(p1.c);
-            p1.freq--;
-            boolean flag=false;
-            if(!pq.isEmpty()){
-                Pair p2=pq.remove();
-                sb.append(p2.c);
-                p2.freq--;
-                flag=true;
-                if(p1.freq>0)pq.add(p1);
-                if(p2.freq>0)pq.add(p2);
-            }
-            if(flag) continue;
-            if(p1.freq>0)pq.add(p1);
-        }
-        String id=sb.toString();
-        char[]newArr=id.toCharArray();
-        if(isValid(newArr)) this.tradeLicenseId=id;
-        else throw new Exception("Valid License can not be generated");
+        this.tradeLicenseId=String.copyValueOf(res);
     }
     private boolean isValid(char[]arr){
         int n=arr.length;
@@ -64,19 +59,5 @@ public class CurrentAccount extends BankAccount{
             if(arr[i]==arr[i-1]) return false;
         }
         return true;
-    }
-}
-class SortByFreq implements Comparator<Pair> {
-    public int compare(Pair a,Pair b){
-        return b.freq-a.freq;
-    }
-}
-class Pair{
-    char c;
-    int freq;
-
-    public Pair(char c, int freq) {
-        this.c = c;
-        this.freq = freq;
     }
 }
