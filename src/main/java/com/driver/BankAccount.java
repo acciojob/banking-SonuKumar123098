@@ -16,17 +16,17 @@ public class BankAccount {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+//    public void setName(String name) {
+//        this.name = name;
+//    }
 
     public double getMinBalance() {
         return minBalance;
     }
 
-    public void setMinBalance(double minBalance) {
-        this.minBalance = minBalance;
-    }
+//    public void setMinBalance(double minBalance) {
+//        this.minBalance = minBalance;
+//    }
 
     public double getBalance() {
         return balance;
